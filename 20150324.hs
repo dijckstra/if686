@@ -60,6 +60,22 @@ livros (x:xs) p
  | fst x == p = (snd x):livros xs p
  | otherwise = livros xs p
 
+{- using list comprehension 
+livros :: BancoDados -> Pessoa -> [Livro]
+livros xs pp = [l | (p, l) <- xs, pp == p]
+-}
+
+emprestimos :: BancoDados -> Livro -> [Pessoa]
+emprestimos [] _ = []
+emprestimos (x:xs) l
+ | snd x == l = (fst x):emprestimos xs l
+ | otherwise = emprestimos xs l
+
+{- using list comprehension 
+emprestimos :: BancoDados -> Livro -> [Pessoa]
+emprestimos xs ll = [p | (p, l) <- xs, ll == l]
+-}
+
 baseExemplo :: BancoDados
 baseExemplo = 
 	[("Sergio", "O Senhor dos Aneis"),

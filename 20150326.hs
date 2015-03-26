@@ -1,3 +1,5 @@
+{-------------------------------- TRABALHO 3 --------------------------------}
+
 {- Defina uma tabela hash em termos de: 
 um tipo de dados que representa a tabela propriamente dita
 e fuņções get, put, remove e hasKey -}
@@ -82,3 +84,35 @@ comparaConjuntos a b
 		|contem b a = "A contem B"
 		|intersecao a b = "A interseciona B"
 		|otherwise = "conjuntos disjuntos"
+
+{-------------------------------- EXERCÍCIOS --------------------------------}
+
+-- Funções polimórficas
+took :: Int -> [a] -> [a]
+took _ [] = []
+took 0 xs = []
+took n (x:xs) = x:(took (n - 1) xs)
+
+dropped :: Int -> [a] -> [a]
+dropped _ [] = []
+dropped 0 xs = xs
+dropped n (x:xs) = dropped (n - 1) xs
+
+tookWhile :: (a -> Bool) -> [a] -> [a]
+tookWhile _ [] = []
+tookWhile f (x:xs)
+ | f x = x:(tookWhile f xs)
+ | otherwise = []
+
+droppedWhile :: (a -> Bool) -> [a] -> [a]
+droppedWhile _ [] = []
+droppedWhile f a@(x:xs)
+ | f x = droppedWhile f xs
+ |otherwise = a
+
+{- Defina uma função polimórfica que ordena
+uma lista de valores para os quais os
+operadores de comparação ((>), (>=), etc.)
+estão definidos. 
+
+VER MERGESORT DO TRABALHO 2 -}

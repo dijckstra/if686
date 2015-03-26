@@ -113,6 +113,33 @@ droppedWhile f a@(x:xs)
 {- Defina uma função polimórfica que ordena
 uma lista de valores para os quais os
 operadores de comparação ((>), (>=), etc.)
-estão definidos. 
+estão definidos. -}
+{- MERGESORT DO TRABALHO 2 -}
 
-VER MERGESORT DO TRABALHO 2 -}
+merge :: (Ord a) => [a] -> [a] -> [a]
+merge xs [] = xs
+merge [] ys = ys
+merge (x:xs) (y:ys)
+ | x < y = x:(merge xs (y:ys))
+ | otherwise = y:(merge (x:xs) ys)
+
+mergesort :: (Ord a) => [a] -> [a]
+mergesort [] = []
+mergesort [x] = [x]
+mergesort xs = merge (mergesort first) (mergesort second)
+ where
+ 	(first, second) = splitAt (((length xs) + 1) `div` 2) xs
+
+{- Crie uma função agrupar que recebe uma lista de listas de
+valores de um tipo t que podem ser comparados para saber se
+são iguais e devolve uma lista de pares (t, Int) onde o primeiro
+elemento é um valor do tipo t que existe em pelo menos uma
+das sub-listas da entrada e o segundo é o número de ocorrências
+desse valor nas sub-listas -}
+
+agrupar :: (Eq t) => [[t]] -> [(t, Int)]
+agrupar x = count (concat x)
+
+count :: (Eq t) => [t] -> [(t, Int)]
+count [] = []
+count l@(x:xs) = [(x, length ([a | a <- l, a == x]))] ++ count [a | a <- l, a /= x]

@@ -135,13 +135,15 @@ baseExemplo =
 
 {- Processamento de Texto -}
 getWord :: String -> String
-getWord (' ':xs) = []
-getWord (x:xs) = x:(getWord xs)
+getWord str = takeWhile (/= ' ') str
 
 dropWord :: String -> String
-dropWord (' ':xs) = ' ':xs
-dropWord (x:xs) = dropWord xs
+dropWord str = dropWhile (/= ' ') str
 
 dropSpace :: String -> String
-dropSpace (' ':xs) = xs
-dropSpace (x:xs) = dropSpace xs
+dropSpace str = dropWhile (== ' ') str
+
+type Word = String
+splitWords :: String -> [Word]
+splitWords [] = []
+splitWords str = [getWord str] ++ splitWords (dropSpace((dropWord str)))

@@ -33,3 +33,35 @@ lookAndSayList n = [said] ++ lookAndSayList said
 lookAndSay :: Int -> [Char]
 lookAndSay 1 = "1"
 lookAndSay n = (lookAndSayList "1")!!(n - 2)
+
+{---------------------------------------- EXERCÍCIOS ----------------------------------------}
+{- Implemente a função somatorioHexadecimal. Essa função recebe uma lista de Strings
+onde cada elemento representa um numero na base hexadecimal e retorna uma String
+contendo o resultado em hexadecimal do somatório da primeira lista. -}
+
+hexToDec :: Char -> Int
+hexToDec ch
+ | hex >= 65 && hex <= 70 = hex - 55
+ | hex >= 48 && hex <= 57 = hex - 48
+ where
+ 	hex = fromEnum ch
+
+decToHex :: Int -> String
+decToHex 0 = ""
+decToHex n
+ | modulus == 10 = decToHex (div n 16) ++ ['A']
+ | modulus == 11 = decToHex (div n 16) ++ ['B']
+ | modulus == 12 = decToHex (div n 16) ++ ['C']
+ | modulus == 13 = decToHex (div n 16) ++ ['D']
+ | modulus == 14 = decToHex (div n 16) ++ ['E']
+ | modulus == 15 = decToHex (div n 16) ++ ['F']
+ | otherwise = decToHex (div n 16) ++ show modulus
+ where
+ 	modulus = mod n 16
+
+somatorioDecimal :: [String] -> Int
+somatorioDecimal [] = 0
+somatorioDecimal (x:xs) = hexToDec (head x) + somatorioDecimal xs
+
+somatorioHexadecimal :: [String] -> String
+somatorioHexadecimal xs = decToHex (somatorioDecimal xs)

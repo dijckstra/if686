@@ -1,4 +1,6 @@
-compose :: (t -> t) -> [(t -> t)] -> [(t -> t)]
+import Data.List (nub)
+
+compose :: (u -> v) -> [(t -> u)] -> [(t -> v)]
 compose f [] = []
 compose f (g:gs) = [fog] ++ (compose f gs)
  where fog x = f (g x)
@@ -49,3 +51,17 @@ filterTree f t@(TNode n l r)
 
 testTree :: Tree Int
 testTree = (TNode 5 (TNode 7 (TNode 15 NilT (TNode 6 NilT NilT)) (TNode 2 NilT NilT)) (TNode 10 NilT NilT))
+
+{---------------------------------------- EXERCÍCIOS ----------------------------------------}
+filterIntList :: [[Int]] -> Int -> [[Int]]
+--filterIntList xs n = [x | x <- xs, (foldr (+) 0 x) < n]
+--filterIntList xs n = filter f xs where f x = ((foldr (+) 0 x) >= n)
+--filterIntList xs n = filter (\x -> (foldr (+) 0 x) >= n) xs
+filterIntList xs n = filter ((>= n) . (foldr (+) 0)) xs
+
+inter :: (Eq t) => [t] ->[t] -> [t]
+inter [] _ = []
+inter (a:as) b = nub ((filter (== a) b) ++ inter as b)
+
+diff :: (Eq t) => [t] ->[t] -> [t]
+diff a b = nub (filter f (a++b)) where f x = (elem x a) && not (elem x b)

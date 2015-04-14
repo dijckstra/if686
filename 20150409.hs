@@ -1,4 +1,5 @@
 import Data.Char (ord)
+import Data.List (nub)
 
 {- TRABALHO 6 -}
 type Node a = a
@@ -76,15 +77,3 @@ testTree = (Node 'F' (Node 'B' (Node 'A' (NilT) (NilT)) (Node 'D' (Node 'C' (Nil
 
 nonNegatives :: [Int] -> [Int]
 nonNegatives xs = filter (>= 0) xs
-
-inter :: (Eq t) => [t] ->[t] -> [t]
-inter [] _ = []
-inter (a:as) b = (filter (== a) b) ++ inter as b
-
-{- ERRADA -}
-diffAux :: (Eq t) => [t] ->[t] -> [t]
-diffAux [] _ = []
-diffAux (a:as) ab = (filter (== a) ab) ++ diffAux as ab
-
-diff :: (Eq t) => [t] ->[t] -> [t]
-diff a b = diffAux a (a++b)

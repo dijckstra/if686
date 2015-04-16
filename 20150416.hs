@@ -1,4 +1,4 @@
-import Data.List (sort)
+import Data.List (sort, nub)
 
 {---------------------------------------- TRABALHO 8  ----------------------------------------}
 listPartitioner :: (Ord a, Num a) => [a] -> ([a] -> [[a]])
@@ -17,3 +17,11 @@ first = \pairs -> [x | (x, y) <- pairs]
 
 greater :: (Num a) => [[a]] -> Int -> [[a]]
 greater = \as n -> [a | a <- as, (length a) > n]
+
+removeDuplicates :: (Eq a) => [[a]] -> [a]
+removeDuplicates list = (removeDuplicates'.concat) list
+ where
+ 	removeDuplicates' = \(x:xs) -> if xs == [] then [] else x : removeDuplicates' (filter (\y -> not ((==) x y)) xs)
+
+sumConst :: (Num a) => a -> [a] -> [a]
+sumConst k = map (+k)

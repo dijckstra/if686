@@ -61,7 +61,7 @@ filterIntList xs n = filter ((>= n) . (foldr (+) 0)) xs
 
 inter :: (Eq t) => [t] ->[t] -> [t]
 inter [] _ = []
-inter (a:as) b = nub ((filter (== a) b) ++ inter as b)
+inter (a:as) b = nub (filter f (a++b)) where f x = (elem x a) && (elem x b)
 
 diff :: (Eq t) => [t] ->[t] -> [t]
 diff a b = nub (filter f (a++b)) where f x = (elem x a) && not (elem x b)

@@ -85,3 +85,21 @@ joinLine (x:xs) = x ++ " " ++ joinLine xs
 joinLines :: [Line] -> String
 joinLines [] = []
 joinLines (x:xs) = joinLine x ++ joinLines xs
+
+mapFilter :: (a -> Bool) -> [[a]] -> [[a]]
+mapFilter _ [] = []
+mapFilter f (x:xs) = [(\ys -> [y | y <- ys, f y]) x] ++ mapFilter f xs
+
+mapFoldr :: (b -> a -> a) -> [a] -> [[b] -> a]
+mapFoldr f [] = []
+mapFoldr f xs = mapFoldrAux f xs (length xs)
+
+mapFoldrAux :: (b -> a -> a) -> [a] -> Int -> [[b] -> a]
+mapFoldrAux f xs 0 = []
+mapFoldrAux f xs n = mapFoldrAux f xs (n-1) ++ [g (xs!!(n-1))]
+ where
+ 	g t [] = t
+ 	g t (a:as) = f a (g t as)
+
+mapFoldrTest :: (b -> a -> a) -> [a] -> [b] -> [a]
+mapFoldrTest f xs ys = map ($(ys)) (mapFoldr f xs)

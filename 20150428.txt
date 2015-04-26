@@ -1,0 +1,61 @@
+// Função de composição para referência
+(.) -> (u -> v) -> (t -> u) -> (t -> v)
+
+//////////////////// map.foldr ////////////////////
+map.foldr
+(.) map foldr
+
+map :: (a -> b) -> [a] -> [b]
+foldr :: (c -> d -> d) -> d -> [c] -> d
+
+map:
+ u - (a -> b)
+ v - ([a] -> [b])
+foldr:
+ t - (c -> d -> d)
+ u - (d -> [c] -> d)
+
+u:
+ a ~= d
+ b ~= [c] -> d
+
+result:
+ t -> v ~= (c -> d -> d) -> [d] -> [[c] -> d]
+
+//////////////////// foldr (+).(.).map ////////////////////
+// desenvolvendo para a forma prefixada
+foldr (+).(.).map
+(.) (foldr (+).(.)) (map)
+(.) ((.) (foldr (+)) (.)) (map)
+
+(.) :: (y -> z) -> (x -> y) -> x -> z
+foldr (+) :: Num d => d -> [d] -> d
+
+foldr (+):
+ u - d
+ v - [d] -> d
+ 
+(.):
+ t - (y -> z)
+ u - (x -> y) -> x -> z
+
+//algebrinha
+u:
+ d ~= (x -> y) -> x -> z
+
+foldr (+).(.) :: (Num (x -> y) -> x -> z) => (y -> z) -> [(x -> y) -> x -> z] -> (x -> y) -> x -> z
+map :: (a -> b) -> [a] -> [b]
+
+foldr (+).(.):
+ u - (y -> z)
+ v - [(x -> y) -> x -> z] -> (x -> y) -> x -> z
+
+map:
+ t - (a -> b)
+ u - [a] -> [b]
+
+u:
+ y ~= [a]
+ z ~= [b]
+
+foldr (+).(.).map :: (Num (x -> [a]) -> x -> [b]) => (a -> b) -> [(x -> [a]) -> x -> [b]] -> (x -> [a]) -> x -> [b] 

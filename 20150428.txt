@@ -58,4 +58,52 @@ u:
  y ~= [a]
  z ~= [b]
 
-foldr (+).(.).map :: (Num (x -> [a]) -> x -> [b]) => (a -> b) -> [(x -> [a]) -> x -> [b]] -> (x -> [a]) -> x -> [b] 
+foldr (+).(.).map :: (Num (x -> [a]) -> x -> [b]) => (a -> b) -> [(x -> [a]) -> x -> [b]] -> (x -> [a]) -> x -> [b]
+
+//////////////////// (\x y z -> foldr z x y).map ////////////////////
+// desenvolvendo para a forma prefixada
+(\x y z -> foldr z x y).map
+(.) (\x y z -> foldr z x y) (map)
+
+(\x y z -> foldr z x y) :: b -> [a] -> (a -> b -> b) -> b
+map :: (c -> d) -> [c] -> [d]
+
+(\x y z -> foldr z x y):
+ u - b
+ v - [a] -> (a -> b -> b) -> b
+
+map:
+ t - (c -> d)
+ u - [c] -> [d]
+
+//algebrinha
+u:
+ b ~= [c] -> [d]
+
+(\x y z -> foldr z x y).map :: (c -> d) -> [a] -> (a -> ([c] -> [d]) -> [c] -> [d]) -> [c] -> [d]
+
+//////////////////// map.((.) (foldr (++) (foldr (++) [] [[1], [2]]))) ////////////////////
+// desenvolvendo para a forma prefixada
+map.((.) (foldr (++) (foldr (++) [] [[1], [2]])))
+(.) map ((.) (foldr (++) (foldr (++) [] [[1], [2]])))
+
+foldr (++) [] [[1], [2]] :: (Num a) => [a]
+foldr (++) (foldr (++) [] [[1], [2]]) :: (Num a) => [[a]] -> [a]
+
+map :: (c -> d) -> [c] -> [d]
+(.) (foldr (++) (foldr (++) [] [[1], [2]])) :: (Num a) => (b -> [[a]]) -> b -> [a]
+
+map:
+ u - (c -> d)
+ v - [c] -> [d]
+
+((.) (foldr (++) (foldr (++) [] [[1], [2]]))):
+ t - (b -> [[a]])
+ u - b -> [a]
+
+//algebrinha
+u:
+ c ~= b
+ d ~= [a]
+
+map.((.) (foldr (++) (foldr (++) [] [[1], [2]]))) :: (Num a) => (b -> [[a]]) -> [b] -> [[a]]
